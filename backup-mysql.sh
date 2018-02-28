@@ -20,7 +20,6 @@ required_vars=(
   MYSQL_USER
   MYSQL_PASS
   MYSQL_DB
-  TARGET_FILENAME
 )
 for required_var in "${required_vars[@]}"; do
   if [[ -z "${!required_var}" ]]; then
@@ -46,6 +45,6 @@ mysqldump --defaults-file=".my.cnf" \
   --quick \
   "${MYSQL_DB}" > dump.sql
 
-tar cf "${BASE_FOLDER}${TARGET_FILENAME}.tar" dump.sql
+tar cf "${BASE_FOLDER}${TARGET_FILENAME:-dump}.tar" dump.sql
 rm dump.sql
-pigz "${BASE_FOLDER}${TARGET_FILENAME}.tar"
+pigz "${BASE_FOLDER}${TARGET_FILENAME:-dump}.tar"
