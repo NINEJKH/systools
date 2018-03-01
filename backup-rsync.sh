@@ -30,8 +30,8 @@ done
 
 extra_args=()
 
-if [[ -z "${SOURCE_SFTP_PORT}" ]]; then
-  SOURCE_SFTP_PORT="22"
+if [[ -z "${SOURCE_SSH_PORT}" ]]; then
+  SOURCE_SSH_PORT="22"
 fi
 
 if [[ ! -z "${RSYNC_SUDO}" ]]; then
