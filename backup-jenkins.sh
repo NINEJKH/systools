@@ -15,17 +15,19 @@ source "${__DIR__}/libs/functions.shlib"
 set -E
 trap 'throw_exception' ERR
 
-# create tar file
-tar cf "${BASE_FOLDER}${TARGET_FILENAME:-bak}.tar" -C "${JENKINS_HOME:-/var/lib/jenkins}" .
-pigz "${BASE_FOLDER}${TARGET_FILENAME:-bak}.tar"
+if [[ -z "${TARGET_FILENAME}" ]]; then
+  TARGET_FILENAME="${FILE_PREFIX}$(date +%Y-%m-%d)"
+fi
 
-target_filename="${FILE_PREFIX}$(date +%Y-%m-%d).tar.gz"
+# create tar file
+tar cf "${BASE_FOLDER}${TARGET_FILENAME}.tar" -C "${JENKINS_HOME:-/var/lib/jenkins}" .
+pigz "${BASE_FOLDER}${TARGET_FILENAME}.tar"
 
 # push to s3
 aws \
   --profile "${AWS_PROFILE}" \
   s3 cp \
-  "bak.tar.gz" "s3://${S3_BUCKET}/${S3_PREFIX}${target_filename}"
+  "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz" "s3://${S3_BUCKET}/${S3_PREFIX}${TARGET_FILENAME}.tar.gz"
   --quiet
 
-rm -f "bak.tar.gz"
+rm -f "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz"
