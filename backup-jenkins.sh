@@ -27,7 +27,7 @@ pigz "${BASE_FOLDER}${TARGET_FILENAME}.tar"
 aws \
   --profile "${AWS_PROFILE}" \
   s3 cp \
-  "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz" "s3://${S3_BUCKET}/${S3_PREFIX}${TARGET_FILENAME}.tar.gz"
+  "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz" "s3://${S3_BUCKET}/${S3_PREFIX}${TARGET_FILENAME}.tar.gz" \
   --quiet
 
 rm -f "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz"
