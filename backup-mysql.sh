@@ -42,6 +42,7 @@ EOF
 
 mysqldump --defaults-file=".my.cnf" \
   --compress \
+  --single-transaction \
   --quick \
   "${MYSQL_DB}" > dump.sql
 

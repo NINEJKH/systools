@@ -19,6 +19,10 @@ if [[ -z "${TARGET_FILENAME}" ]]; then
   TARGET_FILENAME="${FILE_PREFIX}$(date +%Y-%m-%d)"
 fi
 
+# cleanup
+rm -f "${BASE_FOLDER}${TARGET_FILENAME}.tar"
+rm -f "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz"
+
 # create tar file
 tar cf "${BASE_FOLDER}${TARGET_FILENAME}.tar" -C "${JENKINS_HOME:-/var/lib/jenkins}" .
 pigz "${BASE_FOLDER}${TARGET_FILENAME}.tar"
@@ -30,4 +34,5 @@ aws \
   "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz" "s3://${S3_BUCKET}/${S3_PREFIX}${TARGET_FILENAME}.tar.gz" \
   --quiet
 
+# cleanup
 rm -f "${BASE_FOLDER}${TARGET_FILENAME}.tar.gz"
