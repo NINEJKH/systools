@@ -39,6 +39,7 @@ if [[ ! -z "${RSYNC_SUDO}" ]]; then
   extra_args+=( --rsync-path="sudo rsync" )
 fi
 
+ssh_args+=( "ssh" )
 ssh_args+=( "-p" )
 ssh_args+=( "${SOURCE_SSH_PORT}" )
 
@@ -53,7 +54,7 @@ rsync \
   -azq \
   --delete \
   "${extra_args[@]}" \
-  -e "'ssh ${ssh_args[@]}'" \
+  -e "'${ssh_args[@]}'" \
   "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" "${TARGET_PATH}"
 
 # create tar file
