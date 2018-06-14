@@ -53,7 +53,7 @@ rsync \
   -azq \
   --delete \
   "${extra_args[@]}" \
-  -e 'ssh '"${ssh_args[@]}"'' \
+  -e "'ssh ${ssh_args[@]}'" \
   "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" "${TARGET_PATH}"
 
 # create tar file
