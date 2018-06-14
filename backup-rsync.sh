@@ -29,6 +29,7 @@ for required_var in "${required_vars[@]}"; do
 done
 
 extra_args=()
+ssh_args=()
 
 if [[ -z "${SOURCE_SSH_PORT}" ]]; then
   SOURCE_SSH_PORT="22"
@@ -38,13 +39,21 @@ if [[ ! -z "${RSYNC_SUDO}" ]]; then
   extra_args+=( --rsync-path="sudo rsync" )
 fi
 
+ssh_args+=( "-p" )
+ssh_args+=( "${SOURCE_SSH_PORT}" )
+
+if [[ ! -z "${SOURCE_SSH_KEYFILE}" ]]; then
+  ssh_args+=( "-i" )
+  ssh_args+=( "${SOURCE_SSH_KEYFILE}" )
+fi
+
 mkdir -p "${TARGET_PATH}"
 
 rsync \
   -azq \
   --delete \
   "${extra_args[@]}" \
-  -e "ssh -p ${SOURCE_SSH_PORT}" \
+  -e "ssh ${ssh_args[@]}" \
   "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" "${TARGET_PATH}"
 
 # create tar file
