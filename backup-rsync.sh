@@ -28,18 +28,20 @@ for required_var in "${required_vars[@]}"; do
   fi
 done
 
-extra_args=()
+rsync_args=()
 ssh_args=()
+
+rsync_args+=( '-azq' )
+rsync_args+=( '--delete' )
 
 if [[ -z "${SOURCE_SSH_PORT}" ]]; then
   SOURCE_SSH_PORT="22"
 fi
 
 if [[ ! -z "${RSYNC_SUDO}" ]]; then
-  extra_args+=( --rsync-path="sudo rsync" )
+  rsync_args+=( '--rsync-path="sudo rsync"' )
 fi
 
-ssh_args+=( "ssh" )
 ssh_args+=( "-p" )
 ssh_args+=( "${SOURCE_SSH_PORT}" )
 
@@ -48,14 +50,15 @@ if [[ ! -z "${SOURCE_SSH_KEYFILE}" ]]; then
   ssh_args+=( "${SOURCE_SSH_KEYFILE}" )
 fi
 
+rsync_args+=( '-e' )
+rsync_args+=( "ssh ${ssh_args[@]}" )
+
+rsync_args+=( "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" )
+rsync_args+=( "${TARGET_PATH}" )
+
 mkdir -p "${TARGET_PATH}"
 
-rsync \
-  -azq \
-  --delete \
-  "${extra_args[@]}" \
-  -e "'${ssh_args[@]}'" \
-  "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" "${TARGET_PATH}"
+echo rsync "${rsync_args[@]}"
 
 # create tar file
 tar cf "${BASE_FOLDER}${TARGET_FILENAME:-bak}.tar" -C "${TARGET_PATH}" .
