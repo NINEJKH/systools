@@ -45,6 +45,8 @@ ssh_args+=( "${SOURCE_SSH_PORT}" )
 if [[ ! -z "${SOURCE_SSH_KEYFILE}" ]]; then
   ssh_args+=( "-i" )
   ssh_args+=( "${SOURCE_SSH_KEYFILE}" )
+  ssh_args+=( "-l" )
+  ssh_args+=( "${SOURCE_SSH_USER}" )
 fi
 
 mkdir -p "${TARGET_PATH}"
@@ -53,7 +55,7 @@ rsync \
   -azq \
   --delete \
   "${extra_args[@]}" \
-  -e "'ssh ${ssh_args[@]}'" \
+  -e "ssh ${ssh_args[@]}" \
   "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" "${TARGET_PATH}"
 
 # create tar file
