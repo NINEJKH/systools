@@ -49,7 +49,7 @@ fi
 
 mkdir -p "${TARGET_PATH}"
 
-rsync \
+echo rsync \
   -azq \
   --delete \
   "${extra_args[@]}" \
