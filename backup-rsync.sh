@@ -50,15 +50,14 @@ if [[ ! -z "${SOURCE_SSH_KEYFILE}" ]]; then
   ssh_args+=( "${SOURCE_SSH_KEYFILE}" )
 fi
 
-rsync_args+=( '-e' )
-rsync_args+=( "ssh ${ssh_args[@]}" )
+rsync_args+=( '--rsh="ssh '"${ssh_args[@]}"'"' )
 
 rsync_args+=( "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" )
 rsync_args+=( "${TARGET_PATH}" )
 
 mkdir -p "${TARGET_PATH}"
 
-echo rsync "${rsync_args[@]}"
+rsync "${rsync_args[@]}"
 
 # create tar file
 tar cf "${BASE_FOLDER}${TARGET_FILENAME:-bak}.tar" -C "${TARGET_PATH}" .
