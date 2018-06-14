@@ -42,15 +42,13 @@ if [[ ! -z "${RSYNC_SUDO}" ]]; then
   rsync_args+=( '--rsync-path="sudo rsync"' )
 fi
 
-ssh_args+=( "-p" )
-ssh_args+=( "${SOURCE_SSH_PORT}" )
+ssh_args="-p ${SOURCE_SSH_PORT}"
 
 if [[ ! -z "${SOURCE_SSH_KEYFILE}" ]]; then
-  ssh_args+=( "-i" )
-  ssh_args+=( "${SOURCE_SSH_KEYFILE}" )
+  ssh_args="${ssh_args} -i ${SOURCE_SSH_KEYFILE}"
 fi
 
-rsync_args+=( '--rsh="ssh '"${ssh_args[@]}"'"' )
+rsync_args+=( '--rsh="ssh '"${ssh_args}"'"' )
 
 rsync_args+=( "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" )
 rsync_args+=( "${TARGET_PATH}" )
