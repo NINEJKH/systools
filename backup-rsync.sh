@@ -42,7 +42,8 @@ if [[ ! -z "${RSYNC_SUDO}" ]]; then
   rsync_args+=( '--rsync-path="sudo rsync"' )
 fi
 
-ssh_args="-p ${SOURCE_SSH_PORT}"
+ssh_args="ssh"
+ssh_args="${ssh_args} -p ${SOURCE_SSH_PORT}"
 
 if [[ ! -z "${SOURCE_SSH_KEYFILE}" ]]; then
   ssh_args="${ssh_args} -i ${SOURCE_SSH_KEYFILE}"
