@@ -50,7 +50,7 @@ if [[ ! -z "${SOURCE_SSH_KEYFILE}" ]]; then
 fi
 
 rsync_args+=( '-e' )
-rsync_args+=( "'${ssh_args}'" )
+rsync_args+=( "${ssh_args}" )
 
 rsync_args+=( "${SOURCE_SSH_USER}@${SOURCE_SSH_HOST}:${SOURCE_SSH_PATH}" )
 rsync_args+=( "${TARGET_PATH}" )
