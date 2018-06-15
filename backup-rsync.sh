@@ -39,7 +39,7 @@ if [[ -z "${SOURCE_SSH_PORT}" ]]; then
 fi
 
 if [[ ! -z "${RSYNC_SUDO}" ]]; then
-  rsync_args+=( '--rsync-path="sudo rsync"' )
+  rsync_args+=( --rsync-path="sudo rsync" )
 fi
 
 ssh_args="ssh"
