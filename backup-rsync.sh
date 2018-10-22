@@ -10,7 +10,7 @@ else
   __DIR__="$(dirname "$("${readlink_bin}" -f "${0}")")"
 fi
 
-source "${__DIR__}/libs/functions.shlib"
+source "${__DIR__}/libs/functions.lib.sh"
 
 set -E
 trap 'throw_exception' ERR

@@ -8,7 +8,7 @@ else
 fi
 
 # required libs
-source "${__DIR__}/libs/functions.shlib"
+source "${__DIR__}/libs/functions.lib.sh"
 
 set -E
 trap 'throw_exception' ERR

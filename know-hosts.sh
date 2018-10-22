@@ -7,8 +7,8 @@ else
   __DIR__="$(dirname "$("${readlink_bin}" -f "${0}")")"
 fi
 
-source "${__DIR__}/libs/functions.shlib"
-source "${__DIR__}/libs/remote_exec.shlib"
+source "${__DIR__}/libs/functions.lib.sh"
+source "${__DIR__}/libs/remote_exec.lib.sh"
 
 set -E
 trap 'throw_exception' ERR
